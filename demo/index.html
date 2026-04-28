@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>proportion-bar demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+      padding: 24px 16px;
+    }
+
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .resize-note {
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <h1>proportion-bar</h1>
+    <p class="subtitle">Resize the window to see responsive behaviour</p>
+
+    <div class="card">
+      <p class="card-title">Labels inside</p>
+      <canvas id="c1"></canvas>
+      <div class="legend" id="l1"></div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Labels below</p>
+      <canvas id="c2"></canvas>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Thin bar, no labels</p>
+      <canvas id="c3"></canvas>
+    </div>
+
+    <p class="resize-note">← drag the browser window edge to test responsiveness →</p>
+
+  </div>
+
+  <script src="../dist/proportion-bar.min.js"></script>
+  <script>
+    var data = [
+      { value: 30, label: 'React',   color: '#6366f1' },
+      { value: 20, label: 'Vue',     color: '#22c55e' },
+      { value: 15, label: 'Svelte',  color: '#f59e0b' },
+      { value: 25, label: 'Angular', color: '#ef4444' },
+      { value: 10, label: 'Other',   color: '#06b6d4' },
+    ];
+
+    ProportionBar.render('#c1', data, { labelPosition: 'inside', height: 60 });
+    ProportionBar.render('#c2', data, { labelPosition: 'bottom', height: 44 });
+    ProportionBar.render('#c3', data, { showLabels: false, showValues: false, height: 20, radius: 4, gap: 2 });
+
+    // legend for card 1
+    var legend = document.getElementById('l1');
+    data.forEach(function(d) {
+      var item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = '<div class="legend-dot" style="background:' + d.color + '"></div>' + d.label + ' (' + d.value + ')';
+      legend.appendChild(item);
+    });
+  </script>
+</body>
+</html>
